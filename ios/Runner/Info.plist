@@ -47,5 +47,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Add the following -->
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Adhan App needs access to your location to calculate prayer times.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Adhan App needs access to your location to calculate prayer times.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Adhan App needs access to your location to calculate prayer times.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Adhan App needs access to your calendar to add prayer times to your calendar.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>Adhan App needs access to your reminders to add prayer times to your reminders.</string>
+
+
+
 </dict>
 </plist>

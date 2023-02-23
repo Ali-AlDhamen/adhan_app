@@ -1,8 +1,30 @@
+import 'package:adhan_app/services/location.dart';
+import 'package:adhan_app/services/prayers_api.dart';
 import 'package:adhan_app/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:adhan_app/services/location.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  void getLocation() {
+    Location.determinePosition().then((value) =>
+        
+        Location.getCityName(value).then((value) => 
+            PrayerApi().getPrayerTimes(value[0], value[1]).then((value) => 
+                print(value))));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +68,6 @@ class Home extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             child: SingleChildScrollView(
@@ -225,7 +246,6 @@ class Home extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 15),
             child: Align(
@@ -240,7 +260,6 @@ class Home extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-
           Stack(children: [
             Container(
                 padding: EdgeInsets.all(12.0),
@@ -331,15 +350,15 @@ class Home extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             padding: EdgeInsets.all(8),
-
             margin: const EdgeInsets.symmetric(horizontal: 15),
-            child: Text("اللهم اهدني فيمن هديت، وعافني فيمن عافيت، وتولني فيمن توليت، وبارك لي فيما أعطيت، وقني شرَّ ما قضيت، فإنك تقضي ولا يقضى عليك، إنه لا يذل من واليت، ولا يُعزُّ من عاديتَ، تبارَكتَ ربَّنا وتعاليت", style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.right,
-                ),
-            
+            child: Text(
+              "اللهم اهدني فيمن هديت، وعافني فيمن عافيت، وتولني فيمن توليت، وبارك لي فيما أعطيت، وقني شرَّ ما قضيت، فإنك تقضي ولا يقضى عليك، إنه لا يذل من واليت، ولا يُعزُّ من عاديتَ، تبارَكتَ ربَّنا وتعاليت",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.right,
+            ),
           )
         ],
       ),
