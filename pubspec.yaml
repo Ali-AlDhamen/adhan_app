@@ -27,6 +27,9 @@ dependencies:
   json_annotation: ^4.8.0
   intl: ^0.18.0
   geocoding: ^2.0.5
+  flutter_timer_countdown: ^1.0.5
+  hive_flutter: ^1.1.0
+  hive_generator: ^2.0.0
   
   # firebase_core: ^2.5.0
   

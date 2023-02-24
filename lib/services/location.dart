@@ -1,7 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
-class Location {
+class LocationAPI {
   static Future<Position> determinePosition() async {
     LocationPermission permission;
     bool serviceEnabled;
@@ -32,5 +32,15 @@ class Location {
         localeIdentifier: 'en');
 
     return [placemarks[0].locality!, placemarks[0].country!];
+  }
+
+  Future<List<String?>> getCityAndCountryByAddress(String address) async {
+    List<Location> locations = await locationFromAddress(address);
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        locations[0].latitude, locations[0].longitude, localeIdentifier: 'en');
+    Placemark placemark = placemarks[0];
+    String? city = placemark.locality;
+    String? country = placemark.country;
+    return [city, country];
   }
 }
