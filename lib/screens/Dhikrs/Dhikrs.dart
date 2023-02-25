@@ -1,11 +1,9 @@
 import 'package:adhan_app/providers/dkhirs_provider.dart';
 import 'package:adhan_app/screens/Dhikrs/widgets/dhikr_componet.dart';
-import 'package:adhan_app/services/hive_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../models/Dhikr.dart';
-import "DhikrsList.dart";
+import "dhkirs_list.dart";
 import '../../theme/pallete.dart';
 
 class Dhikrs extends ConsumerStatefulWidget {
@@ -26,18 +24,7 @@ class _DhikrsConsumerState extends ConsumerState<Dhikrs> {
     }
   }
 
-  // void ss() async {
-  //   final box = await Hive.openBox('dhkirs');
-  //   box.clear();
-  //   HiveAPi.deleteAll();
-  // }
-
-  void ss() async{
-    final box = await Hive.openBox('dhkirs');
-    box.deleteAll(
-      box.keys.toList()
-    );
-  }
+  
 
   @override
   void initState() {
@@ -51,8 +38,7 @@ class _DhikrsConsumerState extends ConsumerState<Dhikrs> {
     final double height = MediaQuery.of(context).size.height;
     
 
-    return ref.read(dhkirsProvider).when(data: (data) {
-      print(data);
+    return ref.watch(dhkirsProvider).when(data: (data) {
 
       data.sort((a, b) {
         if (a["isPinned"] == true && b["isPinned"] == false) {
@@ -88,11 +74,11 @@ class _DhikrsConsumerState extends ConsumerState<Dhikrs> {
       return Center(
         child: Text(
           error.toString(),
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       );
     }, loading: () {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(
           color: Pallete.purpleColor,
         ),

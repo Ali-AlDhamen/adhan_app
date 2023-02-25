@@ -1,8 +1,6 @@
-import 'package:adhan_app/screens/Tabs.dart';
-import 'package:adhan_app/theme/pallete.dart';
+import 'package:adhan_app/screens/tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -19,7 +17,7 @@ void main() async {
   await Hive.openBox('dhkirs');
   await Hive.openBox('favCities');
 
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,10 +25,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Adhan App',
-      home: const Tabs(),
+      home: Tabs(),
     );
   }
 }

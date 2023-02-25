@@ -8,8 +8,8 @@ class PrayerTime extends StatelessWidget {
   final String prayer;
   final String time;
 
-  PrayerTime(
-      {required this.height,
+  const PrayerTime(
+      {super.key, required this.height,
       required this.width,
       required this.prayer,
       required this.time});
@@ -33,14 +33,14 @@ class PrayerTime extends StatelessWidget {
           children: [
             Text(
               prayer,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Pallete.purpleColor,
                   fontSize: 16,
                   fontWeight: FontWeight.bold),
             ),
             Text(
               time,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Pallete.purpleColor,
                   fontSize: 16,
                   fontWeight: FontWeight.bold),

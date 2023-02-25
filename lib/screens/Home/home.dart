@@ -3,14 +3,10 @@ import 'package:adhan_app/providers/prayers_time_provider.dart';
 
 import 'package:adhan_app/screens/Home/home_date.dart';
 import 'package:adhan_app/screens/Home/prayer_time_home.dart';
-import 'package:adhan_app/services/location.dart';
-import 'package:adhan_app/services/prayers_api.dart';
 import 'package:adhan_app/theme/pallete.dart';
 import 'package:flutter/material.dart';
-import 'package:adhan_app/services/location.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
-import 'package:fpdart/fpdart.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({super.key});
@@ -54,8 +50,6 @@ class _HomeState extends ConsumerState<Home> {
       }
       final nextPrayer = prayers[index].name;
       final nextPrayerTime = prayers[index].time;
-      final timeLeft = prayers[index].time;
-      final counter = Helper.getDifferenceInSeconds(time, timeLeft);
       DateTime counterDate;
      if (nextPrayer == "Fajr"){
          counterDate = Helper.getDateTimeFromFormattedTime(nextPrayerTime);
@@ -72,7 +66,7 @@ class _HomeState extends ConsumerState<Home> {
             HomeDate(
               date: date,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             SingleChildScrollView(
@@ -83,12 +77,12 @@ class _HomeState extends ConsumerState<Home> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             Stack(children: [
               Container(
-                  padding: EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(12.0),
                   width: 400,
                   height: 160,
                   decoration: BoxDecoration(
@@ -100,14 +94,14 @@ class _HomeState extends ConsumerState<Home> {
                     children: [
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             "Next Prayer",
                             style: TextStyle(
                                 color: Pallete.purpleColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Image.asset(
@@ -118,43 +112,44 @@ class _HomeState extends ConsumerState<Home> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
                         Helper.getFormattedTimeAMPM(nextPrayerTime),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Pallete.purpleColor,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
                         "Time Left for $nextPrayer Prayer",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Pallete.purpleColor,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TimerCountdown(
-                        descriptionTextStyle: TextStyle(color: Colors.transparent),
-                        timeTextStyle: TextStyle(color: Pallete.purpleColor, fontSize: 18),
-                        colonsTextStyle: TextStyle(color: Colors.white),
+                        descriptionTextStyle: const TextStyle(color: Colors.transparent),
+                        timeTextStyle: const TextStyle(color: Pallete.purpleColor, fontSize: 18),
+                        colonsTextStyle: const TextStyle(color: Colors.white),
                         
                         format: CountDownTimerFormat.hoursMinutesSeconds,
                         endTime: counterDate,
                         onEnd: () {
-                          print("Timer finished");
                         },
                       ),
                     ],
                   )),
               Positioned(
+                top: 60,
+                left: 250,
                 child: Container(
                   height: 100,
                   width: 150,
@@ -165,11 +160,9 @@ class _HomeState extends ConsumerState<Home> {
                     ),
                   ),
                 ),
-                top: 60,
-                left: 250,
               )
             ]),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Container(
@@ -179,9 +172,9 @@ class _HomeState extends ConsumerState<Home> {
                 color: Pallete.grayColor,
                 borderRadius: BorderRadius.circular(10),
               ),
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               margin: const EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
+              child: const Text(
                 "اللهم اهدني فيمن هديت، وعافني فيمن عافيت، وتولني فيمن توليت، وبارك لي فيما أعطيت، وقني شرَّ ما قضيت، فإنك تقضي ولا يقضى عليك، إنه لا يذل من واليت، ولا يُعزُّ من عاديتَ، تبارَكتَ ربَّنا وتعاليت",
                 style: TextStyle(
                     color: Pallete.purpleColor,
@@ -197,11 +190,11 @@ class _HomeState extends ConsumerState<Home> {
       return Center(
         child: Text(
           error.toString(),
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       );
     }, loading: () {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(
           color: Pallete.purpleColor,
         ),

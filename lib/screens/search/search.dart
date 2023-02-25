@@ -2,9 +2,7 @@ import 'package:adhan_app/common/helper.dart';
 import 'package:adhan_app/providers/city_name_provider.dart';
 import 'package:adhan_app/providers/city_prayers_provider.dart';
 import 'package:adhan_app/providers/searched_city_provider.dart';
-import 'package:adhan_app/screens/test.dart';
 import 'package:adhan_app/services/hive_api.dart';
-import 'package:adhan_app/services/location.dart';
 import 'package:adhan_app/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,7 +40,7 @@ class _SearchState extends ConsumerState<Search> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
 
-    print(isFav);
+
     return Center(
       child: Column(
         children: [
@@ -56,9 +54,9 @@ class _SearchState extends ConsumerState<Search> {
             ),
             child: TextField(
               controller: addressController,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               cursorColor: Pallete.purpleColor,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: InputBorder.none,
                 prefixIcon: Icon(Icons.search, color: Pallete.purpleColor),
                 hintText: 'Search',
@@ -79,7 +77,7 @@ class _SearchState extends ConsumerState<Search> {
             final timings = data.timings;
             final keys = timings.keys;
             final values = timings.values;
-            final date = data.date["readable"];
+            
 
             List<PrayerTime> prayers = [];
             for (var i = 0; i < keys.length; i++) {
@@ -108,7 +106,7 @@ class _SearchState extends ConsumerState<Search> {
                       ref.watch(cityNameProvider) != []
                           ? "${ref.watch(cityNameProvider)[0]}, ${ref.watch(cityNameProvider)[1]}"
                           : "",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Pallete.purpleColor,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
@@ -138,7 +136,7 @@ class _SearchState extends ConsumerState<Search> {
                             },
                           );
                         } else {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
 
                       }
@@ -159,11 +157,11 @@ class _SearchState extends ConsumerState<Search> {
             return Center(
               child: Text(
                 error.toString(),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             );
           }, loading: () {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(
                 color: Pallete.purpleColor,
               ),

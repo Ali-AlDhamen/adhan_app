@@ -1,8 +1,5 @@
-import 'package:adhan_app/providers/dkhirs_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../models/Dhikr.dart';
 
 class HiveAPi {
   static Future<List<dynamic>> getDhikrs() async {

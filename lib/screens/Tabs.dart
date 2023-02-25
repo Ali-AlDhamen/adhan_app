@@ -3,8 +3,8 @@ import 'package:adhan_app/screens/Home/home.dart';
 import 'package:adhan_app/screens/favouriteCities/Favorite_cities.dart';
 import 'package:adhan_app/screens/search/search.dart';
 import 'package:adhan_app/theme/pallete.dart';
-import 'package:flutter/material.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
+import 'package:flutter/material.dart';
 
 class Tabs extends StatefulWidget {
   const Tabs({super.key});
@@ -36,7 +36,7 @@ class _TabsState extends State<Tabs> {
       _child = AnimatedSwitcher(
         switchInCurve: Curves.easeOut,
         switchOutCurve: Curves.easeIn,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         child: _child,
       );
     });

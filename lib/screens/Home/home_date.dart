@@ -30,7 +30,7 @@ class HomeDate extends ConsumerWidget {
             ),
             Text(
               date,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Pallete.purpleColor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
@@ -49,6 +49,5 @@ class HomeDate extends ConsumerWidget {
         ),
       ],
     );
-    ;
   }
 }

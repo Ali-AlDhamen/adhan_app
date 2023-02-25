@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 
-final favCityProvider = FutureProvider<List<dynamic>>((ref) {
+final favCityProvider = FutureProvider.autoDispose<List<dynamic>>((ref) {
   return HiveAPi.getFavCities();
 });
 

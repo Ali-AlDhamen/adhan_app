@@ -1,4 +1,3 @@
-import 'package:adhan_app/providers/dkhirs_provider.dart';
 import 'package:adhan_app/services/hive_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,7 +35,7 @@ class _DhkirComponentConsumerState extends ConsumerState<DhkirComponent> {
             children: [
               Text(
                 widget.dhkirCount == null ? "0" : widget.dhkirCount!,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Pallete.purpleColor,
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
@@ -49,7 +48,7 @@ class _DhkirComponentConsumerState extends ConsumerState<DhkirComponent> {
                   widget.dhkirCount = c.toString();
                   setState(() {});
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.add,
                   color: Pallete.purpleColor,
                 ),
@@ -58,8 +57,9 @@ class _DhkirComponentConsumerState extends ConsumerState<DhkirComponent> {
                 onPressed: () async {
                   await HiveAPi.resetDhkirCounter();
                   widget.dhkirCount = "0";
+                  setState(() {});
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.settings_backup_restore_outlined,
                   color: Pallete.purpleColor,
                 ),
@@ -79,7 +79,7 @@ class _DhkirComponentConsumerState extends ConsumerState<DhkirComponent> {
           ),
           Text(
             widget.dhkirText!,
-            style: TextStyle(color: Colors.white, fontSize: 14),
+            style: const TextStyle(color: Colors.white, fontSize: 14),
             textAlign: TextAlign.right,
           ),
         ],

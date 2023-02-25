@@ -1,6 +1,5 @@
 import 'package:adhan_app/providers/fav_city_provider.dart';
 import 'package:adhan_app/screens/favouriteCities/fav_city.dart';
-import 'package:adhan_app/screens/favouriteCities/favorite_city.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
@@ -25,7 +24,7 @@ class FavoriteCities extends ConsumerWidget {
         child: Column(
           children: [
             ref.watch(favCityProvider).when(data: (data) {
-              print(data);
+        
               return Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
@@ -39,11 +38,11 @@ class FavoriteCities extends ConsumerWidget {
               return Center(
                 child: Text(
                   error.toString(),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               );
             }, loading: () {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(
                   color: Pallete.purpleColor,
                 ),

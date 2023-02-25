@@ -27,7 +27,7 @@ class PrayerTimeHome extends StatelessWidget {
           ),
           Text(
             name,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Pallete.purpleColor, fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
@@ -35,7 +35,7 @@ class PrayerTimeHome extends StatelessWidget {
           ),
           Text(
             Helper.getFormattedTimeAMPM(time),
-            style: TextStyle(
+            style: const TextStyle(
                 color:  Pallete.purpleColor, fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ],

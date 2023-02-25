@@ -3,14 +3,12 @@ import 'package:geocoding/geocoding.dart';
 
 class LocationAPI {
   static Future<Position> determinePosition() async {
-    LocationPermission permission;
     bool serviceEnabled;
     Position position;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
     }
-    permission = await Geolocator.checkPermission();
     await Geolocator.requestPermission();
     // if (permission == LocationPermission.denied) {
     //   permission = await Geolocator.requestPermission();
