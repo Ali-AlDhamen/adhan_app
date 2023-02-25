@@ -1,6 +1,5 @@
 import 'package:adhan_app/models/prayers_time.dart';
 import 'package:dio/dio.dart';
-import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class PrayerApi {

@@ -1,4 +1,6 @@
+import 'package:adhan_app/common/error.dart';
 import 'package:adhan_app/common/helper.dart';
+import 'package:adhan_app/providers/current_day_provider.dart';
 import 'package:adhan_app/providers/prayers_time_provider.dart';
 
 import 'package:adhan_app/screens/Home/widgets/home_date.dart';
@@ -9,7 +11,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 
 import '../../common/spinkit.dart';
-import '../../common/error.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({super.key});
@@ -26,7 +27,7 @@ class _HomeState extends ConsumerState<Home> {
     return ref.watch(prayersTimeProvider).when(data: ((data) {
       final date = data.date["readable"];
       List<PrayerTimeHome> prayers = Helper.getPrayerTimeHome(data);
-      final nextPrayer = Helper.getNextPrayer(prayers);
+      var nextPrayer = Helper.getNextPrayer(prayers);
       DateTime counterDate = Helper.getCountDate(nextPrayer);
 
       return Center(
@@ -53,7 +54,7 @@ class _HomeState extends ConsumerState<Home> {
               Container(
                   padding: const EdgeInsets.all(12.0),
                   width: width * 0.95,
-                  height: height * 0.17,
+                  height: height * 0.175,
                   decoration: BoxDecoration(
                     color: Pallete.grayColor,
                     borderRadius: BorderRadius.circular(10),
@@ -112,7 +113,13 @@ class _HomeState extends ConsumerState<Home> {
                         colonsTextStyle: const TextStyle(color: Colors.white),
                         format: CountDownTimerFormat.hoursMinutesSeconds,
                         endTime: counterDate,
-                        onEnd: () {},
+                        onEnd: () {
+                          ref.watch(currentDayProvider.notifier).update((state) => DateTime.now().day - 1);
+                          setState(() {
+                            nextPrayer = Helper.getNextPrayer(prayers);
+                            counterDate = Helper.getCountDate(nextPrayer);
+                          });
+                        },
                       ),
                     ],
                   )),
@@ -156,7 +163,7 @@ class _HomeState extends ConsumerState<Home> {
         ),
       );
     }), error: (error, stackTrace) {
-      return Error();
+      return const Error();
     }, loading: () {
       return const Center(child: spinKit);
     });

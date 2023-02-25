@@ -7,7 +7,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../common/helper.dart';
 import '../../common/spinkit.dart';
 import "dhkirs_list.dart";
-import '../../theme/pallete.dart';
 import '../../common/error.dart';
 
 class Dhikrs extends ConsumerStatefulWidget {

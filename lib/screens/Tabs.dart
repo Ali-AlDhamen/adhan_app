@@ -5,6 +5,7 @@ import 'package:adhan_app/screens/search/search.dart';
 import 'package:adhan_app/theme/pallete.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Tabs extends StatefulWidget {
   static route(BuildContext context, int index) {
@@ -60,10 +61,16 @@ class _TabsState extends State<Tabs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-        title: const Text('App name'),
+        title:  Text('قم صل', style: GoogleFonts.reemKufi(
+          color: Pallete.purpleColor,
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+        )),
         backgroundColor:  Colors.transparent,
         elevation: 0,
+        centerTitle: true,
       ),
       backgroundColor: Pallete.blackColor,
       body: _child,

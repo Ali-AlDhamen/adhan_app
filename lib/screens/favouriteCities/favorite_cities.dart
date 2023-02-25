@@ -2,10 +2,8 @@ import 'package:adhan_app/providers/fav_city_provider.dart';
 import 'package:adhan_app/screens/favouriteCities/widgets/fav_city.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
 
 import '../../common/spinkit.dart';
-import '../../theme/pallete.dart';
 import '../../common/error.dart';
 
 class FavoriteCities extends ConsumerWidget {
@@ -31,7 +29,7 @@ class FavoriteCities extends ConsumerWidget {
                 ),
               );
             }, error: (error, stackTrace) {
-              return Error();
+              return const Error();
             }, loading: () {
               return const Center(child: spinKit);
             })
