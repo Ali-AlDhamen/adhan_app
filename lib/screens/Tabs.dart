@@ -7,9 +7,19 @@ import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class Tabs extends StatefulWidget {
-  const Tabs({super.key});
+  static route(BuildContext context, int index) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Tabs(index),
+      ),
+    );
+  }
+
 
  
+  int index = 0;
+  Tabs(this.index, {super.key});
 
   @override
   State<Tabs> createState() => _TabsState();
@@ -41,6 +51,11 @@ class _TabsState extends State<Tabs> {
       );
     });
   }
+  @override
+  void initState() {
+    super.initState();
+    _handleNavigationChange(widget.index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +68,13 @@ class _TabsState extends State<Tabs> {
       backgroundColor: Pallete.blackColor,
       body: _child,
       bottomNavigationBar: FluidNavBar(
+       
+        
         style: const FluidNavBarStyle(
           barBackgroundColor: Pallete.grayColor,
           iconSelectedForegroundColor: Pallete.purpleColor,
         ),
+        
         onChange: _handleNavigationChange,
         icons: [
           FluidNavBarIcon(

@@ -30,6 +30,8 @@ dependencies:
   flutter_timer_countdown: ^1.0.5
   hive_flutter: ^1.1.0
   hive_generator: ^2.0.0
+  google_fonts: ^4.0.3
+  flutter_svg: ^1.1.6
   
   # firebase_core: ^2.5.0
   

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../common/helper.dart';
-import '../../theme/pallete.dart';
+import '../../../common/helper.dart';
+import '../../../theme/pallete.dart';
 
 class PrayerTimeHome extends StatelessWidget {
   final String name;

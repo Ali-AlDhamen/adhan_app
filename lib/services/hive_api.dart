@@ -1,6 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-
 class HiveAPi {
   static Future<List<dynamic>> getDhikrs() async {
     final box = await Hive.openBox('dhkirs');

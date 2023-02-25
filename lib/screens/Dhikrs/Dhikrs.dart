@@ -3,8 +3,12 @@ import 'package:adhan_app/screens/Dhikrs/widgets/dhikr_componet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../common/helper.dart';
+import '../../common/spinkit.dart';
 import "dhkirs_list.dart";
 import '../../theme/pallete.dart';
+import '../../common/error.dart';
 
 class Dhikrs extends ConsumerStatefulWidget {
   const Dhikrs({super.key});
@@ -18,13 +22,10 @@ class _DhikrsConsumerState extends ConsumerState<Dhikrs> {
     final box = await Hive.openBox('dhkirs');
     if (box.isEmpty) {
       for (var i = 0; i < dhkirs.length; i++) {
-        // add objects with dhkirs name and 0s
         box.add({'dhkirName': dhkirs[i], 'dhkirCount': 0, 'isPinned': false});
       }
     }
   }
-
-  
 
   @override
   void initState() {
@@ -35,20 +36,9 @@ class _DhikrsConsumerState extends ConsumerState<Dhikrs> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
-    
 
     return ref.watch(dhkirsProvider).when(data: (data) {
-
-      data.sort((a, b) {
-        if (a["isPinned"] == true && b["isPinned"] == false) {
-          return -1;
-        } else if (a["isPinned"] == false && b["isPinned"] == true) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      Helper.sortDhikrs(data);
       return Center(
         child: SizedBox(
           width: width * 0.9,
@@ -71,18 +61,9 @@ class _DhikrsConsumerState extends ConsumerState<Dhikrs> {
         ),
       );
     }, error: (error, stackTrace) {
-      return Center(
-        child: Text(
-          error.toString(),
-          style: const TextStyle(color: Colors.white),
-        ),
-      );
+      return const Error();
     }, loading: () {
-      return const Center(
-        child: CircularProgressIndicator(
-          color: Pallete.purpleColor,
-        ),
-      );
+      return const Center(child: spinKit);
     });
   }
 }

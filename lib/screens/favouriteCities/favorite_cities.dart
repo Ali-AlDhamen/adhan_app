@@ -1,18 +1,15 @@
 import 'package:adhan_app/providers/fav_city_provider.dart';
-import 'package:adhan_app/screens/favouriteCities/fav_city.dart';
+import 'package:adhan_app/screens/favouriteCities/widgets/fav_city.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 
+import '../../common/spinkit.dart';
 import '../../theme/pallete.dart';
+import '../../common/error.dart';
 
 class FavoriteCities extends ConsumerWidget {
   const FavoriteCities({super.key});
-
-  void ss() async {
-    final box = await Hive.openBox('favCities');
-    box.deleteAll(box.keys.toList());
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +21,6 @@ class FavoriteCities extends ConsumerWidget {
         child: Column(
           children: [
             ref.watch(favCityProvider).when(data: (data) {
-        
               return Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
@@ -35,18 +31,9 @@ class FavoriteCities extends ConsumerWidget {
                 ),
               );
             }, error: (error, stackTrace) {
-              return Center(
-                child: Text(
-                  error.toString(),
-                  style: const TextStyle(color: Colors.white),
-                ),
-              );
+              return Error();
             }, loading: () {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Pallete.purpleColor,
-                ),
-              );
+              return const Center(child: spinKit);
             })
           ],
         ),

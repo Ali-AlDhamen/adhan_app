@@ -1,12 +1,20 @@
+import 'package:adhan_app/providers/searched_city_provider.dart';
 import 'package:adhan_app/services/hive_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'favorite_city.dart';
+import '../../Tabs.dart';
 
-class FavCity extends StatelessWidget {
+
+class FavCity extends ConsumerStatefulWidget {
   final String cityName;
   const FavCity({Key? key, required this.cityName}) : super(key: key);
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _FavCityState();
+}
 
+class _FavCityState extends ConsumerState<FavCity> {
+  bool deleted = false;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -14,7 +22,10 @@ class FavCity extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        FavoriteCity.route(context, "Riyadh");
+        ref
+            .read(searchedCityProvider.notifier)
+            .update(((state) => widget.cityName));
+        Tabs.route(context, 1);
       },
       child: Container(
           width: width * 0.9,
@@ -32,7 +43,7 @@ class FavCity extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                cityName,
+                widget.cityName,
                 style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -40,11 +51,14 @@ class FavCity extends StatelessWidget {
               ),
               IconButton(
                   onPressed: () async {
-                    await HiveAPi.removeCityToFav(cityName);
+                    await HiveAPi.removeCityToFav(widget.cityName);
+                    setState(() {
+                      deleted = true;
+                    });
                   },
-                  icon: const Icon(
-                    Icons.favorite,
-                    color: Colors.red,
+                  icon: Icon(
+                    deleted ? Icons.favorite_border : Icons.favorite,
+                    color: deleted ? Colors.white : Colors.red,
                     size: 30,
                   ))
             ],

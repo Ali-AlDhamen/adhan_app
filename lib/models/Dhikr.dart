@@ -53,9 +53,3 @@ class Dhkir {
   int get hashCode => dhkirName.hashCode ^ dhkirCount.hashCode;
 }
 
-
-// generate hive adaptor
-// flutter packages pub run build_runner build --delete-conflicting-outputs
-
-// generate hive adaptor and watch for changes
-// flutter packages pub run build_runner watch --delete-conflicting-outputs

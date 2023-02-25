@@ -1,12 +1,15 @@
 import 'package:adhan_app/common/helper.dart';
 import 'package:adhan_app/providers/prayers_time_provider.dart';
 
-import 'package:adhan_app/screens/Home/home_date.dart';
-import 'package:adhan_app/screens/Home/prayer_time_home.dart';
+import 'package:adhan_app/screens/Home/widgets/home_date.dart';
+import 'package:adhan_app/screens/Home/widgets/prayer_time_home.dart';
 import 'package:adhan_app/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+
+import '../../common/spinkit.dart';
+import '../../common/error.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({super.key});
@@ -17,48 +20,14 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
+    // get width and height
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return ref.watch(prayersTimeProvider).when(data: ((data) {
-      final timings = data.timings;
-      final keys = timings.keys;
-      final values = timings.values;
       final date = data.date["readable"];
-
-      List<PrayerTimeHome> prayers = [];
-      for (var i = 0; i < keys.length; i++) {
-        if (keys.elementAt(i) == "Sunrise" ||
-            keys.elementAt(i) == "Sunset" ||
-            keys.elementAt(i) == "Imsak" ||
-            keys.elementAt(i) == "Midnight" ||
-            keys.elementAt(i) == "Firstthird" ||
-            keys.elementAt(i) == "Lastthird") {
-          continue;
-        }
-        prayers.add(PrayerTimeHome(
-          name: keys.elementAt(i),
-          time: values.elementAt(i).toString().substring(0, 5),
-        ));
-      }
-
-      final time = DateTime.now().toString().substring(11, 16);
-
-      int index = 0;
-      for (var i = 0; i < prayers.length; i++) {
-        if (time.compareTo(prayers[i].time) < 0) {
-          index = i;
-          break;
-        }
-      }
-      final nextPrayer = prayers[index].name;
-      final nextPrayerTime = prayers[index].time;
-      DateTime counterDate;
-     if (nextPrayer == "Fajr"){
-         counterDate = Helper.getDateTimeFromFormattedTime(nextPrayerTime);
-         // add one day to it
-          counterDate = counterDate.add(const Duration(days: 1));
-     }
-      else{
-        counterDate = Helper.getDateTimeFromFormattedTime(nextPrayerTime);
-      }
+      List<PrayerTimeHome> prayers = Helper.getPrayerTimeHome(data);
+      final nextPrayer = Helper.getNextPrayer(prayers);
+      DateTime counterDate = Helper.getCountDate(nextPrayer);
 
       return Center(
         child: Column(
@@ -66,8 +35,8 @@ class _HomeState extends ConsumerState<Home> {
             HomeDate(
               date: date,
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: height * 0.03,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -77,14 +46,14 @@ class _HomeState extends ConsumerState<Home> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: height * 0.06,
             ),
             Stack(children: [
               Container(
                   padding: const EdgeInsets.all(12.0),
-                  width: 400,
-                  height: 160,
+                  width: width * 0.95,
+                  height: height * 0.17,
                   decoration: BoxDecoration(
                     color: Pallete.grayColor,
                     borderRadius: BorderRadius.circular(10),
@@ -101,8 +70,8 @@ class _HomeState extends ConsumerState<Home> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(
-                            width: 10,
+                          SizedBox(
+                            width: width * 0.01,
                           ),
                           Image.asset(
                             "assets/images/group.png",
@@ -112,44 +81,44 @@ class _HomeState extends ConsumerState<Home> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: height * 0.01,
                       ),
                       Text(
-                        Helper.getFormattedTimeAMPM(nextPrayerTime),
+                        Helper.getFormattedTimeAMPM(nextPrayer.time),
                         style: const TextStyle(
                             color: Pallete.purpleColor,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: height * 0.01,
                       ),
                       Text(
-                        "Time Left for $nextPrayer Prayer",
+                        "Time Left for ${nextPrayer.name} Prayer",
                         style: const TextStyle(
                             color: Pallete.purpleColor,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: height * 0.01,
                       ),
                       TimerCountdown(
-                        descriptionTextStyle: const TextStyle(color: Colors.transparent),
-                        timeTextStyle: const TextStyle(color: Pallete.purpleColor, fontSize: 18),
+                        descriptionTextStyle:
+                            const TextStyle(color: Colors.transparent),
+                        timeTextStyle: const TextStyle(
+                            color: Pallete.purpleColor, fontSize: 18),
                         colonsTextStyle: const TextStyle(color: Colors.white),
-                        
                         format: CountDownTimerFormat.hoursMinutesSeconds,
                         endTime: counterDate,
-                        onEnd: () {
-                        },
+                        onEnd: () {},
                       ),
                     ],
                   )),
               Positioned(
-                top: 60,
-                left: 250,
+                top: height * 0.06,
+                left: width * 0.6,
                 child: Container(
                   height: 100,
                   width: 150,
@@ -162,12 +131,12 @@ class _HomeState extends ConsumerState<Home> {
                 ),
               )
             ]),
-            const SizedBox(
-              height: 50,
+            SizedBox(
+              height: height * 0.05,
             ),
             Container(
-              width: 400,
-              height: 180,
+              width: width * 0.95,
+              height: height * 0.2,
               decoration: BoxDecoration(
                 color: Pallete.grayColor,
                 borderRadius: BorderRadius.circular(10),
@@ -187,18 +156,9 @@ class _HomeState extends ConsumerState<Home> {
         ),
       );
     }), error: (error, stackTrace) {
-      return Center(
-        child: Text(
-          error.toString(),
-          style: const TextStyle(color: Colors.white),
-        ),
-      );
+      return Error();
     }, loading: () {
-      return const Center(
-        child: CircularProgressIndicator(
-          color: Pallete.purpleColor,
-        ),
-      );
+      return const Center(child: spinKit);
     });
   }
 }

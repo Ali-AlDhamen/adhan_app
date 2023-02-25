@@ -7,7 +7,9 @@ import 'package:adhan_app/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../favouriteCities/prayer_time.dart';
+import '../../common/spinkit.dart';
+import 'widgets/prayer_time.dart';
+import '../../common/error.dart';
 
 class Search extends ConsumerStatefulWidget {
   const Search({super.key});
@@ -18,8 +20,8 @@ class Search extends ConsumerStatefulWidget {
 class _SearchState extends ConsumerState<Search> {
   bool isFav = false;
   TextEditingController addressController = TextEditingController();
-    String cityName = " ";
-    String countryName = "";
+  String cityName = " ";
+  String countryName = "";
 
   @override
   void dispose() {
@@ -36,10 +38,8 @@ class _SearchState extends ConsumerState<Search> {
 
   @override
   Widget build(BuildContext context) {
-
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-
 
     return Center(
       child: Column(
@@ -74,29 +74,8 @@ class _SearchState extends ConsumerState<Search> {
             height: height * 0.05,
           ),
           ref.watch(cityPrayersTimeProvider).when(data: ((data) {
-            final timings = data.timings;
-            final keys = timings.keys;
-            final values = timings.values;
-            
-
-            List<PrayerTime> prayers = [];
-            for (var i = 0; i < keys.length; i++) {
-              if (keys.elementAt(i) == "Sunrise" ||
-                  keys.elementAt(i) == "Sunset" ||
-                  keys.elementAt(i) == "Imsak" ||
-                  keys.elementAt(i) == "Midnight" ||
-                  keys.elementAt(i) == "Firstthird" ||
-                  keys.elementAt(i) == "Lastthird") {
-                continue;
-              }
-              prayers.add(PrayerTime(
-                height: height,
-                width: width,
-                prayer: keys.elementAt(i),
-                time: Helper.getFormattedTimeAMPM(
-                    values.elementAt(i).toString().substring(0, 5)),
-              ));
-            }
+            List<PrayerTime> prayers =
+                Helper.getPrayerTimes(data, height, width);
             return Column(
               children: [
                 Row(
@@ -111,40 +90,35 @@ class _SearchState extends ConsumerState<Search> {
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
-
                     FutureBuilder(
-                      future: HiveAPi.isFav(
-                          ref.watch(cityNameProvider)[0].toString()),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return IconButton(
-                            icon: Icon(
-                              snapshot.data!
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: Pallete.purpleColor,
-                            ),
-                            onPressed: () async {
-                              if (snapshot.data!) {
-                                await HiveAPi.removeCityToFav(
-                                    ref.watch(cityNameProvider)[0].toString());
-                              } else {
-                                await HiveAPi.addCityToFav(
-                                    ref.watch(cityNameProvider)[0].toString());
-                              }
-                              setState(() {});
-                            },
-                          );
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-
-                      }
-                      
-                    
-                      
-                    )
-                    
+                        future: HiveAPi.isFav(
+                            ref.watch(cityNameProvider)[0].toString()),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return IconButton(
+                              icon: Icon(
+                                snapshot.data!
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: Pallete.purpleColor,
+                              ),
+                              onPressed: () async {
+                                if (snapshot.data!) {
+                                  await HiveAPi.removeCityToFav(ref
+                                      .watch(cityNameProvider)[0]
+                                      .toString());
+                                } else {
+                                  await HiveAPi.addCityToFav(ref
+                                      .watch(cityNameProvider)[0]
+                                      .toString());
+                                }
+                                setState(() {});
+                              },
+                            );
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        })
                   ],
                 ),
                 SizedBox(
@@ -154,18 +128,9 @@ class _SearchState extends ConsumerState<Search> {
               ],
             );
           }), error: (error, stackTrace) {
-            return Center(
-              child: Text(
-                error.toString(),
-                style: const TextStyle(color: Colors.white),
-              ),
-            );
+            return const Error();
           }, loading: () {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Pallete.purpleColor,
-              ),
-            );
+            return const Center(child: spinKit);
           })
         ],
       ),

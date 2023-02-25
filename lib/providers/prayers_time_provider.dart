@@ -7,11 +7,13 @@ import 'package:geolocator/geolocator.dart';
 
 import '../services/location.dart';
 
-final prayersTimeProvider =
-    FutureProvider.autoDispose<PrayersTime>((ref) async {
+final prayersTimeProvider = FutureProvider<PrayersTime>((ref) async {
   Position position = await LocationAPI.determinePosition();
   List<String> city = await LocationAPI.getCityName(position);
   final data = await PrayerApi().getPrayerTimes(city[0], city[1]);
   int day = ref.watch(currentDayProvider);
+  if (day >= data.length) {
+    ref.watch(currentDayProvider.notifier).update((state) => state - 1);
+  }
   return data[day];
 });

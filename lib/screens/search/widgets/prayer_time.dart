@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/pallete.dart';
+import '../../../theme/pallete.dart';
 
 class PrayerTime extends StatelessWidget {
   final double height;
