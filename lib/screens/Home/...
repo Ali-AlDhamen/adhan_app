@@ -7,7 +7,6 @@ import 'package:adhan_app/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
-import 'package:go_router/go_router.dart';
 import '../../common/spinkit.dart';
 
 class Home extends ConsumerStatefulWidget {
