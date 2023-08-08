@@ -25,6 +25,14 @@ class Tabs extends StatefulWidget {
 class _TabsState extends State<Tabs> {
   Widget _child = const Home();
   void _handleNavigationChange(int index) {
+    setState(() {
+      _child = AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        switchInCurve: Curves.easeOut,
+        switchOutCurve: Curves.easeIn,
+        child: _child,
+      );
+    });
     GoRouter.of(context).go('/tabs/$index');
   }
   @override
