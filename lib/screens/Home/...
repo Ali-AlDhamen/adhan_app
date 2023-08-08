@@ -1,0 +1,163 @@
+import 'package:adhan_app/common/helper.dart';
+import 'package:adhan_app/providers/current_day_provider.dart';
+import 'package:adhan_app/providers/prayers_time_provider.dart';
+import 'package:adhan_app/screens/Home/widgets/home_date.dart';
+import 'package:adhan_app/screens/Home/widgets/prayer_time_home.dart';
+import 'package:adhan_app/theme/pallete.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:go_router/go_router.dart';
+import '../../common/spinkit.dart';
+
+class Home extends ConsumerStatefulWidget {
+  const Home({super.key});
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeState();
+}
+
+class _HomeState extends ConsumerState<Home> {
+  @override
+  Widget build(BuildContext context) {
+    // get width and height
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    return ref.watch(prayersTimeProvider).when(data: ((data) {
+      final date = data.date["readable"];
+      List<PrayerTimeHome> prayers = Helper.getPrayerTimeHome(data);
+      var nextPrayer = Helper.getNextPrayer(prayers);
+      DateTime counterDate = Helper.getCountDate(nextPrayer);
+
+      return Center(
+        child: Column(
+          children: [
+            HomeDate(
+              date: date,
+            ),
+            SizedBox(
+              height: height * 0.03,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ...prayers,
+                ],
+              ),
+            ),
+            SizedBox(
+              height: height * 0.06,
+            ),
+            Stack(children: [
+              Container(
+                  padding: const EdgeInsets.all(12.0),
+                  width: width * 0.95,
+                  height: height * 0.175,
+                  decoration: BoxDecoration(
+                    color: Pallete.grayColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            "Next Prayer",
+                            style: TextStyle(
+                                color: Pallete.purpleColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            width: width * 0.01,
+                          ),
+                          Image.asset(
+                            "assets/images/group.png",
+                            width: 20,
+                            height: 20,
+                            color: Pallete.purpleColor,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
+                      Text(
+                        Helper.getFormattedTimeAMPM(nextPrayer.time),
+                        style: const TextStyle(
+                            color: Pallete.purpleColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
+                      Text(
+                        "Time Left for ${nextPrayer.name} Prayer",
+                        style: const TextStyle(
+                            color: Pallete.purpleColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
+                      Countdown(
+                        date: counterDate,
+                        builder: (BuildContext context, Duration remaining) {
+                          return Text(
+                            Helper.getFormattedTime(remaining),
+                            style: const TextStyle(
+                                color: Pallete.purpleColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          );
+                        },
+                      ),
+                    ],
+                  )),
+            ]),
+            SizedBox(
+              height: height * 0.03,
+            ),
+            Container(
+              width: width * 0.95,
+              height: height * 0.175,
+              decoration: BoxDecoration(
+                color: Pallete.grayColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: const Text(
+                      "Dhikrs",
+                      style: TextStyle(
+                          color: Pallete.purpleColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ...Helper.getDhikrs(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }));
+  }
+}
