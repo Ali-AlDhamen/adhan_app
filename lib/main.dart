@@ -2,6 +2,7 @@ import 'package:adhan_app/screens/tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 
 void main() async {
@@ -19,10 +20,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    final goRouter = GoRouter(
+      routes: [
+        GoRoute(
+          path: '/',
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            child: Tabs(0),
+          ),
+        ),
+      ],
+    );
+
+    return MaterialApp.router(
+      routerDelegate: goRouter.routerDelegate,
+      routeInformationParser: goRouter.routeInformationParser,
       debugShowCheckedModeBanner: false,
       title: 'Adhan App',
-      home: Tabs(0),
     );
   }
 }

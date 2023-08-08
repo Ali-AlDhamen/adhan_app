@@ -6,15 +6,11 @@ import 'package:adhan_app/theme/pallete.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 
 class Tabs extends StatefulWidget {
   static route(BuildContext context, int index) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Tabs(index),
-      ),
-    );
+    GoRouter.of(context).go('/tabs/$index');
   }
 
 
@@ -30,27 +26,14 @@ class _TabsState extends State<Tabs> {
   Widget _child = const Home();
   void _handleNavigationChange(int index) {
     setState(() {
-      switch (index) {
-        case 0:
-          _child = const Home();
-          break;
-        case 1:
-          _child = const Search();
-          break;
-        case 2:
-          _child = const Dhikrs();
-          break;
-        case 3:
-          _child = const FavoriteCities();
-          break;
-      }
       _child = AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
         switchInCurve: Curves.easeOut,
         switchOutCurve: Curves.easeIn,
-        duration: const Duration(milliseconds: 500),
         child: _child,
       );
     });
+    GoRouter.of(context).go('/tabs/$index');
   }
   @override
   void initState() {
