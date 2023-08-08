@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+class FavouriteCities extends StatelessWidget {
+  const FavouriteCities({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Favourite Cities'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            GoRouter.of(context).go('/');
+          },
+          child: Text('Go to Home'),
+        ),
+      ),
+    );
+  }
+}
